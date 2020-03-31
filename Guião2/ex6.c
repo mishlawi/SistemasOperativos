@@ -19,7 +19,7 @@ void geraMatriz()
 	for(int i=0;i<L;i++){
 		
 		for(int j=0;j<C;j++){
-			matriz[i][j]=(rand()%100);
+			matriz[i][j]=(rand()%10);
 	
 		}	
 	}
@@ -82,22 +82,25 @@ for(k=0;k<L;k++){
 	
 	b=auxMatriz(a);
 	
-	if (b==1) {tot++;printf("Existe na linha %d\n",k); }
+	if (b==1) {
+		printf("Existe na linha %d\n",k); 
+		
+	}
 	else printf("Linha %d nao tem ocorrências\n",k);
 	sleep(3);
-	exit(k);
+	_exit(k);
 	
 	}
 }
-for (int i=0 && pid>0;i<10;i++){
+
 
 	wait(&status);
-	printf("total de %d encontrados\n",tot);
+	printf("fim, pid=%d\n",getpid());
 
 
 
 
-}
+
 
 
 
