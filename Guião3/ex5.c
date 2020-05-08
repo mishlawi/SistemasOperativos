@@ -1,34 +1,33 @@
-#include <unistd.h>
-#include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 
 
-int main (int argc, char * argv[]){
-	
-pid_t pid;
+int main(int argc, char*argv[]){
+
+
 int status;
 
-	for(int i=1; i<argc ; i++){
-		
-		if ((pid=fork())==0){
-		printf("execl:\n");	
-			execlp(argv[i],argv[i],NULL);
-
-		}
-
-	_exit(i);
-	}
-		
 	for(int i=1;i<argc;i++){
-	 
-		wait(NULL);
-		printf("pai chegou\n");
 
+		if(!fork()){
+	
+		execlp(argv[i],argv[i],NULL);
+
+		
+		_exit(i);
 	}
 	
+	}
+	for(int i=1;i<argc;i++){
+
+		wait(&status);
+		printf("Pai aqui\n");
+
+
+	}
 
 
 return 0;
