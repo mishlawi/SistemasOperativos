@@ -10,14 +10,14 @@ int main (int argc, char* argv[]){
 	
 	if (a==1){
 	
-	char linha [] = "linha\n";
+	char linha [] = "linha";
 
 	int status,bytes;
 	int p[2];
 
 	if(pipe(p)==-1){
 
-	perror("pipe");
+	perror("pipe\n");
 	return -1;
 	}
 
@@ -29,7 +29,7 @@ int main (int argc, char* argv[]){
 	switch(fork()){
 
 	case -1:
-		perror("fork");
+		perror("fork\n");
 		return -1;
 	case 0: 
 		close(p[1]);
@@ -73,7 +73,7 @@ int main (int argc, char* argv[]){
 
 		bytes = read (p[0],buffer,sizeof(buffer));
 		close(p[0]);
-		printf("pai:%s, bytes:%d",buffer,bytes);
+		printf("pai:%s, bytes:%d\n",buffer,bytes);
 		wait(&status);
 	}	
 	
