@@ -31,7 +31,7 @@ else{
        int fd = open(argv[1],O_RDONLY);
 	
 	int rd = readln(fd,buffer,SIZE);
-	
+	close(fd);	
 
 	//faço este print para confirmar a leitura das linhas do ficheiro
 	printf("numero bytes 1a linha do ficheiro %s: %d\n",argv[1],rd);

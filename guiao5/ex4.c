@@ -1,54 +1,36 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <sys/wait.h>
+#include <fcntl.h>
+#include <stdio.h>
 
-
+#define READ 0 
+#define WRITE 1
+#define MAX 1024
 
 int main(){
+    pid_t pid;
+    int fd[2];
 
-int status;
-int p[2];
-
-pipe(p);
-
-	if(!fork()){
-	close(p[1]);
-	dup2(p[1],1);
-	close(p[1]);
-	execlp("ls","ls","/etc",NULL);
-	_exit(-1);
-	}	
-	
-
-	else{
-	close(p[1]);
-	
-
-	
-
-	}	
-
-	if(!fork()){
-	dup2(p[0],0);
-	close(p[0]);
-	execlp("wc","wc","-l",NULL);
-	_exit(1);
-
-
-	}
-
-	else{
-	close(p[0]);
-
-
-	}
-
-	for(int i=0;i<2;i++){
-	wait(&status);
-	
-	}
-
-
-return 0;
+    if( pipe(fd) < 0 ){
+        perror("Error creating pipe!");
+        return 1;
+    }
+    pid = fork();
+    if( pid < 0 ){
+        perror("Error creating child process");
+        return 1;
+    }
+    if( !pid ){
+        dup2(fd[READ],0);
+        close(fd[READ]);
+        close(fd[WRITE]);
+        execlp("wc","wc","-l",NULL);
+        _exit(1);
+    }
+    else{
+        dup2(fd[WRITE],1);
+        close(fd[WRITE]);
+        close(fd[READ]);
+        execlp("ls","ls","/etc",NULL);
+    }
+    return 0;
 }
